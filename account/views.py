@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .forms import CreateUserForm
 from django.views.decorators.csrf import csrf_exempt
-from .models import *
+from .models import Tenant, Landlord, Rent
 from django.contrib.auth.decorators import login_required
 
 
@@ -22,13 +22,21 @@ def landlord(request):
 def home(request):
     return render(request, 'account/dashboard.html')
 
-def tenant(request):
-    tenants=Tenant.objects.all()
-    return render(request, 'account/tenant.html',{'tenants': tenants})
+def tenant(request, pk_test):
+	tenants = Tenant.objects.filter(id=pk_test)
+	return render(request, 'account/tenant.html',{'tenants': tenants})
 
-def landlord(request):
-    landlords= Landlord.objects.all()
-    return render(request,'account/landlord.html', {'landlords': landlords})
+
+def landlord(request, pk):
+	landlords = Landlord.objects.filter(id=pk)
+	return render(request,'account/landlord.html',{'landlords':landlords})
+
+def rent(request, pk):
+	rents= Rent.objects.filter(id=pk)
+	return render (request, 'account/rent.html',{'rents':rents})
+
+
+
 @csrf_exempt
 def registerPage(request):
 	form= CreateUserForm()
@@ -61,3 +69,4 @@ def loginPage(request):
 def logoutUser(request):
 	logout(request)
 	return redirect('login')
+

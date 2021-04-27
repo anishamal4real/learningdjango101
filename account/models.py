@@ -26,7 +26,10 @@ class Landlord(models.Model):
 class Rent(models.Model):
     tenant=models.ForeignKey(Tenant, null=True, on_delete=models.SET_NULL)
     landlord=models.ForeignKey(Landlord, null=True, on_delete=models.SET_NULL)
-    date_created= models.DateTimeField(auto_now_add=True)
+    date_created= models.DateTimeField(auto_now_add=True) 
+    def __str__(self):
+        return self.tenant.name or ''
+        
 
     
 
