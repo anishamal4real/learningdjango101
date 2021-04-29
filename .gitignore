@@ -5,7 +5,7 @@
 __pycache__
 db.sqlite3
 media
-account/migrations
+
 account/__pycache__/*
 account/__pycache__/
 RentManagementSystem/__pycache__/*
