@@ -1,6 +1,6 @@
 from django.urls import path,include
 from . import views
-from .views  import TenantViewSet, LandlordViewSet, TenantAPIView, TenantDetailAPIView
+from .views  import TenantViewSet, LandlordViewSet, TenantAPIView, TenantDetailAPIView, TenantListGenericAPIView, TenantDetailGenericAPIView 
 from rest_framework.routers import DefaultRouter
 router=DefaultRouter()
 router.register('tenant',TenantViewSet, basename='tenant')
@@ -15,6 +15,9 @@ urlpatterns = [path('', views.home, name="home"),
                path('viewset/<int:pk>',include(router.urls)),
                 path('tenantapi/',TenantAPIView.as_view()),
                 path('tenantapidetail/<int:pk>', TenantDetailAPIView.as_view()),
+                 path('generic/tenant/', TenantListGenericAPIView.as_view()),
+    path('generic/tenantdetail/<int:pk>/', TenantDetailGenericAPIView.as_view())
+
                 #path('generic/article/', TenantListGenericAPIView.as_view()),
                 #path('generic/detail/<int:pk>/', TenantDetailGenericAPIView.as_view())
             

@@ -11,7 +11,8 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import viewsets
 from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import status
 from rest_framework.views import APIView
@@ -69,6 +70,21 @@ class TenantDetailAPIView(APIView):
         tenant= self.get_object(pk)
         tenant.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class TenantListGenericAPIView(generics.ListCreateAPIView):
+    queryset = Tenant.objects.all()
+    serializer_class = TenantSerializer
+    lookup_field= 'id'
+    #authentication_classes= [SessionAuthentication, BasicAuthentication]
+    authentication_classes= [TokenAuthentication]
+    permission_classes=[IsAuthenticated]
+
+
+class TenantDetailGenericAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Tenant.objects.all()
+    serializer_class = TenantSerializer
+
+
 
 
 
