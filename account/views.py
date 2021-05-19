@@ -19,20 +19,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 
-class TenantViewSet(viewsets.ModelViewSet):
-    serializer_class= TenantSerializer
-    queryset= Tenant.objects.all()
 
-
-class LandlordViewSet(viewsets.ModelViewSet):
-    serializer_class= LandlordSerializer
-    queryset= Landlord.objects.all()
-
-
-class RentViewSet(viewsets.ModelViewSet):
-    serializer_class= RentSerializer
-    queryset= Rent.objects.all()
-
+#For showcasing the details of Tenant
 class TenantAPIView(APIView):
     def get(self,request):
         tenants= Tenant.objects.all()
@@ -83,6 +71,64 @@ class TenantListGenericAPIView(generics.ListCreateAPIView):
 class TenantDetailGenericAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tenant.objects.all()
     serializer_class = TenantSerializer
+
+# For showcasing the details of the landlord
+class LandlordAPIView(APIView):
+    def get(self,request):
+        tenants= Landlord.objects.all()
+        serializer=LandlordSerializer(tenants, many=True)
+        return Response(serializer.data)
+
+    def post(self,request):
+        serializer=LandlordSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LandlordDetailAPIView(APIView):
+    def get_object(self, pk):
+        try:
+            return Landlord.objects.get(id=pk)
+        except Landlord.DoesNotExist:
+            raise Http404("There is no such landlord.")
+
+    def get(self, request, pk):
+        landlord = self.get_object(pk)
+        serializer = LandlordSerializer(landlord)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        landlord = self.get_object(pk)
+        serializer = LandlordSerializer(landlord, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        landlord= self.get_object(pk)
+        landlord.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class LandlordListGenericAPIView(generics.ListCreateAPIView):
+    queryset = Landlord.objects.all()
+    serializer_class = LandlordSerializer
+    lookup_field= 'id'
+    #authentication_classes= [SessionAuthentication, BasicAuthentication]
+    authentication_classes= [TokenAuthentication]
+    permission_classes=[IsAuthenticated]
+
+
+class LandlordDetailGenericAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Landlord.objects.all()
+    serializer_class = LandlordSerializer
+
+class RentDetailGenericAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Rent.objects.all()
+    serializer_class = RentSerializer
+
+
 
 
 
@@ -150,3 +196,19 @@ def logoutUser(request):
 	logout(request)
 	return redirect('login')
 
+'''
+class TenantViewSet(viewsets.ModelViewSet):
+    serializer_class= TenantSerializer
+    queryset= Tenant.objects.all()
+
+
+class LandlordViewSet(viewsets.ModelViewSet):
+    serializer_class= LandlordSerializer
+    queryset= Landlord.objects.all()
+
+
+class RentViewSet(viewsets.ModelViewSet):
+    serializer_class= RentSerializer
+    queryset= Rent.objects.all()
+    
+'''
