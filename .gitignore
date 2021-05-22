@@ -5,6 +5,7 @@
 __pycache__
 db.sqlite3
 media
+.vscode
 account/migrations
 account/__pycache__/*
 account/__pycache__/
@@ -13,7 +14,6 @@ RentManagementSystem/__pycache__/*
 __pycache__/*
 __pycache__/
 
-XYZ/migrations
 
 # Backup files #
 *.bak
