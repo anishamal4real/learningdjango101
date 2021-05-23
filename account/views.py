@@ -19,7 +19,21 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
 
+class TenantViewSet(viewsets.ModelViewSet):
+    serializer_class= TenantSerializer
+    queryset= Tenant.objects.all()
 
+
+class LandlordViewSet(viewsets.ModelViewSet):
+    serializer_class= LandlordSerializer
+    queryset= Landlord.objects.all()
+
+
+class RentViewSet(viewsets.ModelViewSet):
+    serializer_class= RentSerializer
+    queryset= Rent.objects.all()
+
+'''
 #For showcasing the details of Tenant
 class TenantAPIView(APIView):
     def get(self,request):
@@ -141,7 +155,7 @@ def tenant(request):
     return HttpResponse('This is the page for the tenants.')
 def landlord(request):
     return HttpResponse('This is the page for the landlords.')
-'''
+
 # Create your views here.
 
 def home(request):
@@ -195,20 +209,3 @@ def loginPage(request):
 def logoutUser(request):
 	logout(request)
 	return redirect('login')
-
-'''
-class TenantViewSet(viewsets.ModelViewSet):
-    serializer_class= TenantSerializer
-    queryset= Tenant.objects.all()
-
-
-class LandlordViewSet(viewsets.ModelViewSet):
-    serializer_class= LandlordSerializer
-    queryset= Landlord.objects.all()
-
-
-class RentViewSet(viewsets.ModelViewSet):
-    serializer_class= RentSerializer
-    queryset= Rent.objects.all()
-    
-'''

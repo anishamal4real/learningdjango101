@@ -1,7 +1,12 @@
 from django.urls import path, include
 from . import views
-from .views import  TenantAPIView, TenantDetailAPIView, TenantListGenericAPIView,TenantDetailGenericAPIView, LandlordAPIView, LandlordDetailAPIView, LandlordDetailGenericAPIView, LandlordListGenericAPIView, RentDetailGenericAPIView
+from .views import  LandlordViewSet, TenantViewSet, RentViewSet
+from rest_framework.routers import DefaultRouter
 
+router= DefaultRouter()
+router.register('tenant', TenantViewSet, basename="tenant")
+router.register('landlord', LandlordViewSet, basename="landlord")
+router.register('rent',RentViewSet, basename="rent")
 
 urlpatterns = [path('', views.home, name="home"),
                path('tenant/<str:pk_test>/', views.tenant, name="tenant"),
@@ -10,14 +15,10 @@ urlpatterns = [path('', views.home, name="home"),
                path('register/', views.registerPage, name="register"),
                path('login/', views.loginPage, name="login"),
                path('logout/', views.logoutUser, name="logout"),
-               path('tenantapi/', TenantAPIView.as_view()),
-               path('tenantapidetail/<int:pk>', TenantDetailAPIView.as_view()),
-               path('generic/tenant/', TenantListGenericAPIView.as_view()),
-               path('generic/tenantdetail/<int:pk>/', TenantDetailGenericAPIView.as_view()),
-               path('landlordapi/', LandlordAPIView.as_view()),
-               path('landlordapidetail/<int:pk>', LandlordDetailAPIView.as_view()),
-               path('generic/landlord/', LandlordListGenericAPIView.as_view()),
-               path('generic/landlorddetail/<int:pk>/', LandlordDetailGenericAPIView.as_view()),
-               path('generic/rentdetail/<int:pk>/', RentDetailGenericAPIView.as_view()),
+               path('viewset/', include(router.urls)),
+               path('viewset/<int:pk>/', include(router.urls)),
                
-               ]
+]               
+               
+              
+              
