@@ -13,7 +13,7 @@ RentManagementSystem/__pycache__/*
 RentManagementSystem/__pycache__/*
 __pycache__/*
 __pycache__/
-
+RentManagementSystem/secrets.json
 
 # Backup files #
 *.bak
