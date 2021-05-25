@@ -1,12 +1,18 @@
+
 from django.urls import path, include
 from . import views
 from .views import  LandlordViewSet, TenantViewSet, RentViewSet
 from rest_framework.routers import DefaultRouter
 
+
+
 router= DefaultRouter()
 router.register('tenant', TenantViewSet, basename="tenant")
 router.register('landlord', LandlordViewSet, basename="landlord")
 router.register('rent',RentViewSet, basename="rent")
+
+
+
 
 urlpatterns = [path('', views.home, name="home"),
                path('tenant/<str:pk_test>/', views.tenant, name="tenant"),
@@ -17,6 +23,8 @@ urlpatterns = [path('', views.home, name="home"),
                path('logout/', views.logoutUser, name="logout"),
                path('viewset/', include(router.urls)),
                path('viewset/<int:pk>/', include(router.urls)),
+            
+
                
 ]               
                

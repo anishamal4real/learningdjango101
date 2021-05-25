@@ -16,7 +16,13 @@
     {% include 'account/navbar.html' %}
 
     {% block content %}
-    {% endblock %}
+    <h2>Sign up for a free account</h2>
+    <p class="lead">Select below the type of account you want to create</p>
+    <a href="{% url 'tenant_signup' %}" class="btn btn-student btn-lg" role="button">I'm a Tenanat</a>
+    <a href="{% url 'landlord_signup' %}" class="btn btn-teacher btn-lg" role="button">I'm a Landlord</a>
+  {% endblock %}
+
+  
 
 
 </body>

@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic.base import TemplateView
 from .forms import CreateUserForm
 from .serializers import TenantSerializer, LandlordSerializer, RentSerializer
 from django.views.decorators.csrf import csrf_exempt
@@ -18,6 +19,10 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import Http404
+
+class SignUpView(TemplateView):
+    template_name = 'account/signup.html'
+    
 
 class TenantViewSet(viewsets.ModelViewSet):
     serializer_class= TenantSerializer
